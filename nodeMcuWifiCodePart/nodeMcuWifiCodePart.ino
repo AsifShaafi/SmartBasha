@@ -5,8 +5,6 @@
 //const char* host = "http://192.168.0.101";
 String host = "http://apphousebd.com";
 
-//const char* ssid = "dewDrops";
-//const char* password = "aa11@aa11";
 //const char* ssid = "lenovo-300";
 //const char* password = "aa11aa11@";
 const char* ssid = "dewDrops_walton";
