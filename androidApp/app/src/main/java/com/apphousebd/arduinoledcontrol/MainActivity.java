@@ -1,30 +1,31 @@
 package com.apphousebd.arduinoledcontrol;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import dmax.dialog.SpotsDialog;
@@ -38,6 +39,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private static final int FIREBASE_SIGN_IN = 1010;
 
     private ImageView channelOneImg, channelTwoImg, channelThreeImg, channelFourImg;
     private TextView channelOneText, channelTwoText, channelThreeText, channelFourText;
@@ -52,12 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
     private OkHttpClient client;
 
+    private FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (mFirebaseAuth.getCurrentUser() == null) {
+            finish();
+        }
+        else {
+            FirebaseMessaging.getInstance().subscribeToTopic("smartBasha");
+        }
 
         client = new OkHttpClient.Builder()
                 .writeTimeout(5, TimeUnit.SECONDS)
@@ -97,7 +108,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // user is now signed out
+                            finish();
+                        }
+                    });
             return true;
         }
 
