@@ -6,12 +6,9 @@
 //String host = "http://192.168.0.101";
 String host = "http://apphousebd.com";
 
-//const char* ssid = "lenovo-300";
-//const char* password = "aa11aa11@";
-//const char* ssid = "dewDrops_walton";
-//const char* password = "1122aa11";
-const char* ssid = "dewDrops";
-const char* password = "aa11@aa11";
+// change this according to own wifi-router settings
+const char* ssid = "lenovo-300";
+const char* password = "aa11aa11@";
 
 //################# Channel control ###################
 // setting the pins for controlling the relay channels

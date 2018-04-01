@@ -2,7 +2,9 @@ package com.apphousebd.arduinoledcontrol;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,9 +39,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "MainActivity";
     private static final int FIREBASE_SIGN_IN = 1010;
+
+    SwipeRefreshLayout refreshLayout;
 
     private ImageView channelOneImg, channelTwoImg, channelThreeImg, channelFourImg;
     private TextView channelOneText, channelTwoText, channelThreeText, channelFourText;
@@ -84,13 +88,22 @@ public class MainActivity extends AppCompatActivity {
         channelTwoText = findViewById(R.id.channel_status_text_2);
         channelThreeText = findViewById(R.id.channel_status_text_3);
         channelFourText = findViewById(R.id.channel_status_text_4);
+
+        refreshLayout = findViewById(R.id.reload);
+        refreshLayout.setOnRefreshListener(this);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                updateChannelStates();
+            }
+        }, 500);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        updateChannelStates();
     }
 
     @Override
@@ -331,6 +344,12 @@ public class MainActivity extends AppCompatActivity {
             channelImg.setImageResource(R.drawable.off);
             channelText.setText(channel + " is off");
         }
+    }
+
+    @Override
+    public void onRefresh() {
+
+        updateChannelStates();
     }
 //
 //    public void getNewIP(View v) {
