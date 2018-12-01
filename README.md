@@ -1,6 +1,12 @@
 # smartBasha
 This is a project for the MSD (Microcontroller Based System Design) Lab, which is taken in AUST in 3rd year 2nd semester. We are building a system whrer anyone can control their home light/fan with their android smart phone from anywhere around the wrold. We have also implemented PIR sensor, which detects movement and automatically turn the light on.
 
+## Tools and Languages:
+  1. Arduino
+  2. Android studio
+  3. NodeMCU esp8266 WiFi module
+  4. Java, PHP, MySql
+
 ### Requirements
   1. Arduino Mega/uno (In the project arduino mega was used, and the code is for that, but any arduino will do)
   2. NodeMCU esp8266 wifi module (you can buy it from [TechshopBD](https://www.techshopbd.com/product-categories/wifi/2869/esp8266-nodemcu-lua-wifi-with-cp2102-techshop-bangladesh#!prettyPhoto[pp_gal]/0/))
